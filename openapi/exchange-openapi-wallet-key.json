@@ -429,7 +429,8 @@
         "tags": [
           "Events"
         ],
-        "summary": "Fetch events by ids, categories, sub-categories, event groups and/or from/to dates",
+        "summary": "Fetch events",
+        "description": "Fetch events by ids, categories, sub-categories, event groups and/or from/to dates",
         "operationId": "getEvents",
         "parameters": [
           {
@@ -1057,7 +1058,8 @@
         "tags": [
           "Markets"
         ],
-        "summary": "Returns a paginated list of markets based on the provided filter and ordering criteria. This can get specific known markets (by market ID), or markets based on other criteria such as event ID(s) and/or market type and status etc.",
+        "summary": "Fetch markets",
+        "description": "Returns a paginated list of markets based on the provided filter and ordering criteria. This can get specific known markets (by market ID), or markets based on other criteria such as event ID(s) and/or market type and status etc.",
         "operationId": "getMarkets",
         "parameters": [
           {
@@ -1407,7 +1409,8 @@
         "tags": [
           "Markets"
         ],
-        "summary": "Fetch market orders by wallets. Page size limit 500",
+        "summary": "Fetch market orders",
+        "description": "Fetch market orders by wallets. Page size limit 500",
         "operationId": "getMarketOrders",
         "parameters": [
           {
@@ -1500,7 +1503,8 @@
         "tags": [
           "Markets"
         ],
-        "summary": "Fetch market positions by wallets",
+        "summary": "Fetch market positions",
+        "description": "Fetch market positions by wallets",
         "operationId": "getMarketPositions_1",
         "parameters": [
           {
@@ -1648,7 +1652,8 @@
               }
             }
           }
-        }
+        },
+        "deprecated": true
       }
     },
     "/markets/{id}/prices-v2": {
@@ -2378,8 +2383,7 @@
               }
             }
           }
-        },
-        "deprecated": true
+        }
       }
     },
     "/orders/cancel-v2": {
