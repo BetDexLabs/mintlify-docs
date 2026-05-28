@@ -12,20 +12,6 @@
     "dark": "/images/favicon-32x32.png"
   },
   "navigation": {
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    },
     "groups": [
       {
         "group": "Get started",
@@ -35,12 +21,8 @@
         ]
       },
       {
-        "group": "REST API (BetDEX)",
+        "group": "REST API",
         "openapi": "https://developers.betdex.com/v1/exchange-openapi-wallet-key.json"
-      },
-      {
-        "group": "REST API (Apps)",
-        "openapi": "https://developers.betdex.com/v1/exchange-openapi-general.json"
       },
       {
         "group": "Stream API",
