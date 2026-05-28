@@ -2383,7 +2383,8 @@
               }
             }
           }
-        }
+        },
+        "deprecated": true
       }
     },
     "/orders/cancel-v2": {
@@ -2391,7 +2392,8 @@
         "tags": [
           "Orders"
         ],
-        "summary": "Cancel orders owned by the caller by event and/or market; skips invalid markets/orders. Pending orders will be updated with matchBehavior: CancelUnmatched, and any remaining unmatched stake after processing will be cancelled.",
+        "summary": "Cancel orders in batch",
+        "description": "Cancel orders owned by the caller by event and/or market; skips invalid markets/orders. Pending orders will be updated with matchBehavior: CancelUnmatched, and any remaining unmatched stake after processing will be cancelled.",
         "operationId": "cancelOrdersV2",
         "parameters": [
           {
