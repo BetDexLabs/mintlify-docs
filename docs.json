@@ -12,11 +12,6 @@
     "dark": "/images/favicon-32x32.png"
   },
   "navigation": {
-    "pages": [
-      "index",
-      "quickstart",
-      "stream-api"
-    ],
     "global": {
       "anchors": [
         {
@@ -30,7 +25,30 @@
           "icon": "newspaper"
         }
       ]
-    }
+    },
+    "groups": [
+      {
+        "group": "Get started",
+        "pages": [
+          "index",
+          "quickstart"
+        ]
+      },
+      {
+        "group": "REST API (BetDEX)",
+        "openapi": "https://developers.betdex.com/v1/exchange-openapi-wallet-key.json"
+      },
+      {
+        "group": "REST API (Apps)",
+        "openapi": "https://developers.betdex.com/v1/exchange-openapi-general.json"
+      },
+      {
+        "group": "Stream API",
+        "pages": [
+          "stream-api"
+        ]
+      }
+    ]
   },
   "logo": {
     "light": "/images/betdex-logo-light.svg",
