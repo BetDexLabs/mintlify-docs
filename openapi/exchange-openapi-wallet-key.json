@@ -1836,7 +1836,8 @@
         "tags": [
           "Orders"
         ],
-        "summary": "Fetch orders by filters. At least one of the following filter parameters must be supplied: ids, appIds, eventIds, marketIds, walletIds, references. Page size limit 500.",
+        "summary": "Fetch orders by filters.",
+        "description": "Fetch orders by filters. At least one of the following filter parameters must be supplied: ids, appIds, eventIds, marketIds, walletIds, references. Page size limit 500.",
         "operationId": "getOrders",
         "parameters": [
           {
@@ -2270,7 +2271,8 @@
         "tags": [
           "Orders"
         ],
-        "summary": "Cancel orders owned by the caller by event and/or market; skips invalid markets/orders. Pending orders will be updated with matchBehavior: CancelUnmatched, and any remaining unmatched stake after processing will be cancelled.",
+        "summary": "Cancel orders in batch",
+        "description": "Cancel orders owned by the caller by event and/or market; skips invalid markets/orders. Pending orders will be updated with matchBehavior: CancelUnmatched, and any remaining unmatched stake after processing will be cancelled.",
         "operationId": "cancelOrders",
         "parameters": [
           {
@@ -2448,7 +2450,8 @@
         "tags": [
           "Orders"
         ],
-        "summary": "Fetch orders settled in date range, filtered by wallet (settled orders are those of status \u0027Won\u0027, \u0027Lost\u0027, or \u0027Voided\u0027). Page size limit 500, max date range is 10 days.",
+        "summary": "Fetch orders settled in date range",
+        "description": "Fetch  orders settled in date range, filtered by wallet (settled orders are those of status \u0027Won\u0027, \u0027Lost\u0027, or \u0027Voided\u0027). Page size limit 500, max date range is 10 days.",
         "operationId": "getOrdersSettledBetween",
         "parameters": [
           {
@@ -2600,7 +2603,8 @@
         "tags": [
           "Orders"
         ],
-        "summary": "Cancel order by id. Pending orders will be updated with matchBehavior: CancelUnmatched, and any remaining unmatched stake after processing will be cancelled.",
+        "summary": "Cancel order by id",
+        "description": "Cancel order by id. Pending orders will be updated with matchBehavior: CancelUnmatched, and any remaining unmatched stake after processing will be cancelled.",
         "operationId": "cancelOrder",
         "parameters": [
           {
@@ -2682,7 +2686,8 @@
         "tags": [
           "Orders"
         ],
-        "summary": "Cancel order by id. Pending orders will be updated with matchBehavior: CancelUnmatched, and any remaining unmatched stake after processing will be cancelled.",
+        "summary": "Cancel order by id",
+        "description": "Pending orders will be updated with matchBehavior: CancelUnmatched, and any remaining unmatched stake after processing will be cancelled.",
         "operationId": "cancelOrderV2",
         "parameters": [
           {
