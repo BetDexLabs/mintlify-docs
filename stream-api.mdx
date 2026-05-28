@@ -1,0 +1,233 @@
+---
+title: "Stream API"
+description: "Real-time WebSocket subscriptions for events, markets, orders, and wallets."
+icon: "bolt"
+---
+
+The BetDEX Stream API provides methods for clients to subscribe to exchange events. Clients connect to the Stream API, authenticate their connection, and then subscribe to the updates they wish to receive.
+
+## Connection details
+
+**WebSocket host:**
+
+<CodeGroup>
+
+```text Sandbox
+wss://sandbox.stream.btdx.io
+```
+
+```text Production
+wss://prod.stream.btdx.io
+```
+
+</CodeGroup>
+
+## Message types
+
+There are two types of messages that can be sent to the Stream API:
+
+- [Authentication](#authentication)
+- [Subscription](#subscription)
+
+## Authentication
+
+To authenticate, clients must send an `AuthenticationRequest` after connecting. The `accessToken` is available from the REST API when creating a session.
+
+### AuthenticationRequest
+
+```json
+{
+  "action": "authenticate",
+  "accessToken": "string"
+}
+```
+
+## Subscription
+
+To subscribe to updates, clients must send a `SubscriptionRequest` describing the type of update and the IDs they are interested in.
+
+- The `subscriptionType` field defines the type for which subscription is made. Allowed values are:
+  - `EventUpdate`
+  - `MarketUpdate`
+  - `MarketPriceUpdate`
+  - `MarketStatusUpdate`
+  - `OrderUpdate`
+  - `WalletUpdate`
+- The `subscriptionIds` field determines the entities to subscribe to. Allowed values are:
+  - For `EventUpdate`, `MarketUpdate`, `MarketPriceUpdate`, and `MarketStatusUpdate` it can be set to `*` or a `market-id`.
+  - For `OrderUpdate` it can be set to:
+    - `*`
+    - `order-id` — subscribe to updates for an order identified by its id.
+    - `order-app-id:*` — subscribe to all orders owned by `app-id` (only the connection's `app-id` is allowed).
+    - `order-app-id:order-wallet-id` — subscribe to all orders owned by `app-id` and `wallet-id` (only the connection's `app-id` is allowed, and the wallet must be owned by that `app-id`).
+  - For `WalletUpdate` it can be set to `*` or a `wallet-id`.
+
+<Note>
+  Setting `subscriptionId` to `*` means the client will be subscribed to all updates of the given type.
+</Note>
+
+### SubscriptionRequest
+
+```json
+{
+  "action": "subscribe",
+  "subscriptionType": "EventUpdate | MarketUpdate | MarketPriceUpdate | MarketStatusUpdate | OrderUpdate | WalletUpdate",
+  "subscriptionIds": ["string"]
+}
+```
+
+## Update messages
+
+After authentication and subscription, clients will receive update messages when markets, orders, or wallets are updated on the platform. The supported update message formats are listed below.
+
+### EventUpdateMessage
+
+```json
+{
+  "eventId": "string",
+  "eventGroupId": "string",
+  "eventGroupName": "string",
+  "subcategoryId": "string",
+  "subcategoryName": "string",
+  "categoryId": "string",
+  "categoryName": "string",
+  "appId": "string",
+  "name": "string",
+  "code": "string",
+  "active": "boolean",
+  "expectedStartTime": "string (date-time)",
+  "createdAt": "string (date-time)",
+  "modifiedAt": "string (date-time)"
+}
+```
+
+### MarketUpdateMessage
+
+```json
+{
+  "marketId": "string",
+  "appId": "string",
+  "eventId": "string",
+  "eventGroupId": "string",
+  "categoryId": "string",
+  "subCategoryId": "string",
+  "name": "string",
+  "marketTypeId": "string",
+  "marketValue": "string",
+  "marketDiscriminator": "string | null",
+  "escrowWalletId": "string",
+  "currencyId": "string",
+  "marketOutcomes": [
+    {
+      "outcomeId": "string",
+      "title": "string",
+      "ordering": 0,
+      "winner": "string | null",
+      "participantId": "string | null",
+      "createdAt": "string (date-time)",
+      "modifiedAt": "string (date-time)"
+    }
+  ],
+  "crossMatchingEnabled": "boolean",
+  "lockAt": "string (date-time)",
+  "settledAt": "string (date-time) | null",
+  "marketLockAction": "None | CancelUnmatchedLiquidity",
+  "eventStartAction": "None | CancelUnmatchedLiquidity",
+  "status": "Initializing | Open | Locked | Settling | Settled | Voiding | Voided | Closed",
+  "published": "boolean",
+  "suspended": "boolean",
+  "inPlayStatus": "NotApplicable | PrePlay | InPlay",
+  "inPlayDelay": 0,
+  "createdAt": "string (date-time)",
+  "modifiedAt": "string (date-time)"
+}
+```
+
+### MarketStatusUpdateMessage
+
+```json
+{
+  "marketId": "string",
+  "eventId": "string",
+  "eventGroupId": "string",
+  "categoryId": "string",
+  "subCategoryId": "string",
+  "status": "Initializing | Open | Locked | Settling | Settled | Voiding | Voided | Closed",
+  "published": "boolean",
+  "suspended": "boolean",
+  "inPlayStatus": "NotApplicable | PrePlay | InPlay"
+}
+```
+
+### MarketPriceUpdateMessage
+
+```json
+{
+  "updateType": "Snapshot | Incremental",
+  "marketId": "string",
+  "eventId": "string",
+  "eventGroupId": "string",
+  "categoryId": "string",
+  "subCategoryId": "string",
+  "prices": [
+    {
+      "side": "For | Against",
+      "outcomeId": "string",
+      "price": "number",
+      "liquidity": "number",
+      "change": "number",
+      "validAt": "string (date-time)"
+    }
+  ]
+}
+```
+
+### OrderUpdateMessage
+
+```json
+{
+  "orderId": "string",
+  "eventId": "string",
+  "eventGroupId": "string",
+  "categoryId": "string",
+  "subCategoryId": "string",
+  "marketId": "string",
+  "walletId": "string",
+  "status": "Cancelled | Matched | PartiallyMatched | Unmatched | Won | Lost | Voided",
+  "side": "For | Against",
+  "outcomeIndexId": "string",
+  "price": 0.0,
+  "priceAvg": 0.0,
+  "totalExposure": 0.0,
+  "stake": 0.0,
+  "stakeUnmatched": 0.0,
+  "stakeVoided": 0.0,
+  "reference": "string",
+  "createdAt": "string (date-time)",
+  "modifiedAt": "string (date-time)",
+  "trades": [
+    {
+      "tradeId": "string",
+      "side": "For | Against",
+      "price": 0.0,
+      "stake": 0.0,
+      "createdAt": "string (date-time)"
+    }
+  ]
+}
+```
+
+### WalletUpdateMessage
+
+```json
+{
+  "walletId": "string",
+  "currencyId": "string",
+  "balance": 0.0,
+  "change": 0.0
+}
+```
+
+## Next steps
+
+For session creation and access tokens, refer to the [REST API (BetDEX)](/rest-api-betdex) documentation.
