@@ -1708,7 +1708,8 @@
         "tags": [
           "Orders"
         ],
-        "summary": "(Coming soon) Submit a request to create an order and get back an acknowledgement response containing the order\u0027s ID immediately. An order with a status of Pending will be created immediately in order to generate an ID; Any in-play/BIR delay, as well as initial matching will be performed asynchronously. Updates about orders created via this method maybe found as OrderUpdate messages through the StreamAPI and/or by calling GET /orders/{id} with the returned ID",
+        "summary": "(Coming soon) Create an order request",
+        "description": "Submit a request to create an order and get back an acknowledgement response containing the order\u0027s ID immediately. An order with a status of Pending will be created immediately in order to generate an ID; Any in-play/BIR delay, as well as initial matching will be performed asynchronously. Updates about orders created via this method maybe found as OrderUpdate messages through the StreamAPI and/or by calling GET /orders/{id} with the returned ID",
         "operationId": "createOrderRequest",
         "parameters": [
           {
