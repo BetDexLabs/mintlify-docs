@@ -21,7 +21,10 @@
       },
       {
         "group": "REST API",
-        "openapi": "https://developers.betdex.com/v1/exchange-openapi-wallet-key.json"
+        "openapi": "https://developers.betdex.com/v1/exchange-openapi-wallet-key.json",
+        "pages": [
+          "rest-api/overview"
+        ]
       },
       {
         "group": "Stream API",
