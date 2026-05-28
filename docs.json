@@ -21,7 +21,7 @@
       },
       {
         "group": "REST API",
-        "openapi": "http://docs.api.monacoprotocol.xyz.s3-website.eu-west-2.amazonaws.com/v1/exchange-openapi-wallet-key.json",
+        "openapi": "openapi/exchange-openapi-wallet-key.json",
         "pages": [
           "rest-api/overview"
         ]
