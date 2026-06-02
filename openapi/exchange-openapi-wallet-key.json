@@ -2915,7 +2915,8 @@
         "tags": [
           "Session Management"
         ],
-        "summary": "Create session for a given credentials",
+        "summary": "Create a session",
+        "description": "Create a session for the supplied credentials and receive access and refresh tokens. These tokens will be used for Bearer authentication, and passed as part of the authorization header where required.\n\n\u003cb\u003eNOTE:\u003c/b\u003e \u003ccode\u003ewalletId\u003c/code\u003e should be omitted or set to \u003ccode\u003enull\u003c/code\u003e \u003ci\u003eunless\u003c/i\u003e the API key being used is of type \u003ccode\u003eWALLET\u003c/code\u003e.\n",
         "operationId": "createSession",
         "requestBody": {
           "content": {
@@ -2939,11 +2940,14 @@
             }
           },
           "404": {
-            "description": "Not Found",
+            "description": "No matching credentials were found. If the provided API key is of type WALLET, please be sure the appropriate wallet ID is passed in the \u003ccode\u003ewalletId\u003c/code\u003e field.",
             "content": {
               "*/*": {
-                "schema": {
-                  "$ref": "#/components/schemas/SessionResponse"
+                "example": {
+                  "title": "Not found",
+                  "details": [
+                    "APIKey entity with ID of pa****34 not found for App with ID of ANAPPID"
+                  ]
                 }
               }
             }
@@ -2956,7 +2960,8 @@
         "tags": [
           "Session Management"
         ],
-        "summary": "Refresh a session using the refresh token",
+        "summary": "Refresh a session",
+        "description": "Refresh an existing session using the refresh token. If a session\u0027s access token has expired but the refresh token is still valid, the existing session can be refreshed.\nNew access and refresh tokens will be returned.\n\nThe refresh token should be used in place of the access token in the authorization header for Bearer authentication.\n\nThis is a faster operation than creating a new session and refreshing should be preferred to creating new sessions where possible.\n",
         "operationId": "refreshSession",
         "parameters": [
           {
@@ -4168,12 +4173,23 @@
       },
       "CreateSessionRequest": {
         "type": "object",
+        "example": {
+          "appId": "ANAPPID",
+          "walletId": "OPTIONAL-ONLY-IF-APIKEY-IS-TYPE-WALLET",
+          "apiKey": "password1234"
+        },
         "properties": {
           "appId": {
-            "type": "string"
+            "type": "string",
+            "description": "The ID of the app"
+          },
+          "walletId": {
+            "type": "string",
+            "description": "If using an API key of type WALLET, please supply the ID of the wallet"
           },
           "apiKey": {
-            "type": "string"
+            "type": "string",
+            "description": "The API key secret"
           }
         },
         "required": [
