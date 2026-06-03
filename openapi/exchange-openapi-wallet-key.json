@@ -849,7 +849,7 @@
           "Wallets"
         ],
         "summary": "Credit wallet with test funds",
-        "description": "Credit wallet with 1000 units of a given currency (only available on sand box environment)",
+        "description": "Credit wallet with 1000 units of a given currency (only available on sandbox environment)",
         "operationId": "creditWallet",
         "parameters": [
           {
