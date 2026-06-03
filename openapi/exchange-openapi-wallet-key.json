@@ -54,6 +54,9 @@
     },
     {
       "name": "Trades"
+    },
+    {
+      "name": "Wallets"
     }
   ],
   "paths": {
@@ -833,6 +836,87 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/ExternalReferenceSourcesResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/faucet": {
+      "get": {
+        "tags": [
+          "Wallets"
+        ],
+        "summary": "Credit wallet with 1000 units of a given currency",
+        "operationId": "creditWallet",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Header with the accessToken for the current session",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "Bearer eyJ0eXAiOiJ...bjV7AtDgA"
+          },
+          {
+            "name": "walletId",
+            "in": "query",
+            "description": "id of the wallet to be credited",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "currencyId",
+            "in": "query",
+            "description": "currency id of the wallet to be credited",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransferResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Session invalid",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransferResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Missing permission",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransferResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransferResponse"
                 }
               }
             }
@@ -3404,6 +3488,387 @@
               "*/*": {
                 "schema": {
                   "$ref": "#/components/schemas/TradeResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/wallets/{id}": {
+      "get": {
+        "tags": [
+          "Wallets"
+        ],
+        "summary": "Fetch a wallet by id",
+        "operationId": "getWallet",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Header with the accessToken for the current session",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "Bearer eyJ0eXAiOiJ...bjV7AtDgA"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "wallet id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/WalletResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Session invalid",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/WalletResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Missing permission",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/WalletResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/WalletResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/wallets/{id}/metrics": {
+      "get": {
+        "tags": [
+          "Wallets"
+        ],
+        "summary": "Get Wallet Account Metrics",
+        "description": "Fetch a set of wallet account metrics for given wallet-id and currency-id",
+        "operationId": "getMetrics",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Header with the accessToken for the current session",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "Bearer eyJ0eXAiOiJ...bjV7AtDgA"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "wallet id for which to fetch metrics",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "currencyId",
+            "in": "query",
+            "description": "currency id for which to fetch metrics",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fromDateTime",
+            "in": "query",
+            "description": "starting from date",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "toDateTime",
+            "in": "query",
+            "description": "starting to date",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/WalletMetricsResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Session invalid",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/WalletMetricsResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Missing permission",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/WalletMetricsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/WalletMetricsResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/wallets/{id}/positions": {
+      "get": {
+        "tags": [
+          "Wallets"
+        ],
+        "summary": "Get Market Positions",
+        "description": "Fetch a list of market positions for the specified wallet, filtered by market ids",
+        "operationId": "getMarketPositions",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Header with the accessToken for the current session",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "Bearer eyJ0eXAiOiJ...bjV7AtDgA"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "wallet id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "marketIds",
+            "in": "query",
+            "description": "List of market ids to filter positions by",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedMarketPositionResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Session invalid",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedMarketPositionResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Missing permission",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedMarketPositionResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedMarketPositionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/wallets/{id}/transactions": {
+      "get": {
+        "tags": [
+          "Wallets"
+        ],
+        "summary": "Fetch a list of transactions",
+        "description": "Fetch a list of transactions for the current user, filtered by the provided walletFilter param",
+        "operationId": "getWalletTransactions",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Header with the accessToken for the current session",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "Bearer eyJ0eXAiOiJ...bjV7AtDgA"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "wallet id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fromCreatedAt",
+            "in": "query",
+            "description": "Filter transactions created after this timestamp (inclusive)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "toCreatedAt",
+            "in": "query",
+            "description": "Filter transactions created before this timestamp (inclusive)",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Zero-based page index (0..N)",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The size of the page to be returned",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedTransactionResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Session invalid",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedTransactionResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Missing permission",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedTransactionResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedTransactionResponse"
                 }
               }
             }
