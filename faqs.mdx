@@ -1,0 +1,198 @@
+---
+title: "FAQs"
+---
+
+### General
+
+#### Is the API open to the public?
+
+​Yes! BetDEX launched their API to the public at the end of May 2026.
+
+​
+
+#### Is there a sandbox?
+
+​Yes, you can obtain an API key to our sandbox environment by creating an account on [https://sandbox.betdex.com](https://sandbox.betdex.com).
+
+​API requests can then be made using:
+
+- REST API base URL: [https://sandbox.api.btdx.io/](https://sandbox.api.btdx.io/)
+- Websocket host: wss://[sandbox.stream.btdx.io](http://sandbox.stream.btdx.io)
+
+​
+
+#### Are there any fees to use the API?
+
+​Other than the usual 1% commission that we charge on net profits per market, there are no additional charges to trading via our API.
+
+​
+
+​
+
+### Order Creation
+
+​
+
+#### How quickly are orders confirmed?
+
+​Latency on BetDEX Exchange is currently ~0.08s. Naturally this will vary during peak periods, however we are committed to continuously improving our infrastructure and are pushing to get this down to ~0.01s consistently.
+
+​Please note, this does not include any 'in-play bet delay'. If you are placing an order on an in-play market with a bet delay of 5 seconds for example, then you should expect confirmation within 5.08s.
+
+​
+
+​
+
+#### What are the limits on order placement?
+
+​Using POST/orders, you can only place 1 order at a time. Using POST/orders/batch, you can place up to 50 orders per request.
+
+​Overall, standard usage rate limits will apply.
+
+​
+
+​
+
+#### Can I see orders from other apps, for example to create an order book UI?
+
+​Yes, GET/orders and GET/market-prices will return you all orders / prices on BetDEX.
+
+Likewise if you subscribe to OrderUpdate and/or MarketPriceUpdate in the Stream API.
+
+​However to maintain security, the specific app & wallet names and any identifiers of other customers will be omitted.
+
+​
+
+​
+
+#### Can we see available liquidity at each price level?
+
+​Yes, you will get the outcome, side, price, available (backer) stake for each price point where liquidity is available on the market.
+
+​
+
+​
+
+#### Are partial fills supported?
+
+​Yes, if \$1k exists at 2.0, and you place an order for \$1.5k, we will match that \$1k. The remaining \$500 depends on what you specify as the "matchBehaviour" in the order request:
+
+- **RetainUnmatched** = the remaining \$500 would be kept open as an offer for someone else to later match against (or for you to later cancel yourselves)
+- **CancelUnmatched** = the remaining \$500 would be cancelled and returned to your wallet
+
+​
+
+​
+
+#### Is there maker/taker fee differentiation?
+
+Currently, no - we charge a flat 1% commission on net profits per market, regardless of whether the order is a maker or a taker. This may change in the future; however, we'll of course communicate any changes well in advance.
+
+### Order Cancellation
+
+#### Using batch cancellation (/orders/cancel-v2), what happens if you attempt to cancel 5 order ids, of which 1 is already cancelled?
+
+If the order has been cancelled already, it won't be amended further, and won't be returned by the request. The process is to take the request parameters, find applicable (open) orders based on the parameters, cancel them and return a list of the cancelled orders.
+
+So if the request parameters don't match an order (ie. it's been cancelled already, or fully matched) then it will not be returned in the response.
+
+### Settlement
+
+#### Are settlement/resolution statuses available programmatically?
+
+Yes when markets are settled, if you are subscribed to:
+
+- MarketUpdate and/or MarketStatusUpdate --\> you will receive a websocket message informing you that the status has changed
+- OrderUpdate --\> order status would update to Won / Lost / Voided.
+- EventUpdate --\> event active status would update to "inactive".
+
+### Sessions
+
+#### After creating a session, I call other APIs but they return 400 error. What’s wrong?
+
+Ensure that you have included accessToken pasted under authorization in the request header.
+
+#### How long do sessions last?
+
+The initial accessToken provided expires after 30 mins. The refresh token provided, which can be used in POST/sessions/refresh to extend the session for a further 30 mins, will expire after 1 week.
+
+### Common Errors
+
+#### I’m receiving a 403 error ‘the request could not be satisfied’. What should I do?
+
+Cloudfront may be rejecting your requests, as one of the rules is that you specify a user agent. Adding CURLOPT\_USERAGENT =\> 'BetMonitor/1.0 (client)', into the curl options should fix the issue.
+
+### Stream API / Websockets
+
+#### What are the connection timeouts?
+
+There are some limits imposed by the provider we're using: Idle Connection Timeout: 10mins Max Connection Duration: 2 hours
+
+These are hard limits with the implementation we have at the moment.
+
+For the idle connection (10 mins), you can send PING messages (or any message) to keep the connection which will keep this alive. For the 2 hour timeout, you'll just need to reconnect
+
+We are planning to move to a different websocket provider which should alleviate these problems in the long term.
+
+#### I have authenticated & subscribed, but I’m not receiving updates. What can I do?
+
+Check to ensure your connection has not disconnected due to one of the timeout reasons above.
+
+### Events & Markets
+
+#### What does the API show if an event is cancelled or postponed?
+
+If we are voiding the markets, then you will see: Market Status = Voided, Event Active = False.
+
+You can get this either from the REST API (using GET/events & GET/markets), or from the Stream API via the EventUpdate & MarketStatusUpdate subscriptions.
+
+If we are letting the markets run (& just updating the event start time), you will see the updated event start time (again via GET/events on the the REST API, or EventUpdate subscription via Stream API).
+
+You can refer to our [rules](https://learn.betdex.com/betdex-exchange/betdex-offering/exchange-rules-and-regulations) for clarification on when we void.
+
+#### Will I be able to create my own events?
+
+Currently we are not able to support setting up of new market operators. It's on our radar for future development.
+
+For now however, if you wish to request new leagues or markets, you can reach out to us at [requestabet@betdex.com](mailto:requestabet@betdex.com). If we can accommodate it, then we will get your request added ASAP!
+
+#### Does the API provide full order book depth or only best bid/ask?
+
+Yes, all market prices/liquidity will be available.
+
+#### Are matched trades/recent fills available through the API?
+
+Yes, all orders & trades are available through the API with various filtering options. You will of course not receive the app/wallet id of who specifically created the trade (unless it's your own), but can get the market, side, price, stake details.
+
+#### Is there websocket support for real-time updates?
+
+Yes, see our developer docs [here](/stream-api).
+
+#### What is the expected update latency for odds / orderbook changes?
+
+Our REST API & Websocket updates are currently averaging ~between 30-50ms for market price updates, with a max ~100ms during peak periods.
+
+#### Are event, market & participant IDs & names consistent?
+
+Once created, market & event IDs will not change unless a game is cancelled and then rearranged as another event.
+
+Team/participants are generally re-used across events - ie. so for NBA playoffs, for Knicks v Cavaliers series, all games use these participants:
+
+- CLECAV - Cleveland Cavaliers - 10569
+- NEYOKN - New York Knicks - 10571
+
+Note, the ids may differ between Sandbox & Prod, but are consistent in the same env.
+
+### Rate Limits
+
+#### What are the API rate limits?
+
+We are defining these next week, however will be in the region of 500-1000 requests per second. Initially this will be across all reads (GET) and writes (POST), but will be split out a bit more as we grow.
+
+#### Are websocket subscriptions limited?
+
+Currently not, but again we may introduce this as we grow. The recommendation is that you subscribe to the wildcard "\*" which will give you all market prices / order updates / etc in one subscription, rather than market by market.
+
+### Any other questions?
+
+If you have another question which we've not answered here, please get in touch either on our Discord channel, or via Live Chat on our website.

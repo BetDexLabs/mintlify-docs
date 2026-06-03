@@ -3,6 +3,10 @@ title: "Welcome"
 description: "BetDEX Exchange API documentation overview"
 ---
 
+## Introduction
+
+BetDEX provides both a RESTful API and a Stream API (websocket) to ensure seamless, easy integration between the BetDEX Exchange and client applications. The RESTful API is an HTTP-based API which lets you read/GET event, market & price data, and write/POST orders. The Websocket API (wss) provides you instant notifications when there are changes to Markets, Prices, Events & your Orders.
+
 This documentation covers the BetDEX Exchange API for real-time market data, trade execution, and account management. Use the REST APIs to manage events, markets, sessions, wallets, and orders, or connect to the Stream API for real-time updates.
 
 <CardGroup cols={2}>
@@ -30,3 +34,119 @@ This documentation covers the BetDEX Exchange API for real-time market data, tra
     Stream: `wss://prod.stream.btdx.io`
   </Card>
 </CardGroup>
+
+## Getting Started
+
+​
+
+In order to use our APIs, you require:
+
+- An ‘App ID’
+- A 'Wallet ID'
+- An ‘API Key’
+
+​To get these, follow the steps outlined on [https://learn.betdex.com/betdex-exchange/using-the-betdex-exchange/betdex-api/how-to-get-my-api-key](https://learn.betdex.com/betdex-exchange/using-the-betdex-exchange/betdex-api/how-to-get-my-api-key)
+
+<Info>
+  The server / base URL for any calls on production is [**https://prod.api.btdx.io/**](https://prod.api.btdx.io/)
+</Info>
+
+## Authentication
+
+​Using your ‘App ID’, 'Wallet ID' & ‘API Key’, initiate a ‘session’ by calling: `POST https://prod.api.btdx.io/sessions` using the App id & API key provided in the request body:
+
+```text
+{
+  "appId": "01abcde12345",
+  "walletId": "01abcde12345-User-123",
+  "apiKey": "123abc456def789ghi"
+}
+```
+
+The response provides an `accessToken`:
+
+```text
+{
+  "sessions": [
+    {
+      "accessToken": "....",
+      "refreshToken": "...",
+      "accessExpiresAt": "2026-03-24T14:45:01.000Z",
+      "refreshExpiresAt": "2026-03-31T14:15:01.000Z"
+    }
+  ]
+}
+```
+
+​Include the session `accessToken` as the authorization value in the request header for all subsequent API calls.
+
+| ​ To pick up a draggable item, press the space bar. While dragging, use the arrow keys to move the item. Press space again to drop the item in its new position, or press escape to cancel. |
+| --- |
+
+| Token | Lifetime | Notes |
+| :-- | :-- | :-- |
+| `accessToken` | 30 minutes | Used to authenticate all API requests |
+| `refreshToken` | 1 week | Use with `POST /sessions/refresh` to extend the session for another 30 minutes |
+
+## Placing Your First Bet
+
+​Using your session `accessToken` as the authorization value in the request header, place an ‘order’ by calling: `POST https://prod.api.btdx.io/orders` using the App id & API key provided in the request body:
+
+```text
+{
+  "walletId": "string",
+  "marketId": "string",
+  "side": "For",
+  "outcomeId": "string",
+  "price": 0,
+  "stake": 0,
+  "keepWhenInPlay": true,
+  "matchBehavior": "RetainUnmatched",
+  "reference": "string"
+}
+```
+
+Where:
+
+- **walletId** is what you were given when you generated your API key, and can always be found at [https://betdex.com/account?tab=api-key](https://betdex.com/account?tab=api-key)
+- **marketId** is the unique market id number that you wish to bet on. You can find these using GET/markets
+- **side** is **For** (Back) or **Against** (Lay)
+- **outcomeId** is the outcome (team, participant, selection) you wish to back or lay, again obtained in GET/markets
+- **price** is your desired odds/price
+- **stake** is your desired **backer stake**
+  - Note, this is always from the backer's perspective
+  - So if you are laying, this is your desired profit, not your risk
+  - Meaning if you wish to Lay/Against Team A risking \$1000 @ 1.5, your stake input (profit) must be \$2000
+- **keepWhenInPlay** is **true** if you wish for any unmatched stake to remain open when the event starts & market moves to in play; or **false** if you wish it to be cancelled
+- **matchBehavior** is **RetainUnmatched** if you wish for any unmatched stake (after the order is processed) to remain unmatched as open liquidity at the price given; or **CancelUnmatched** if you wish us to cancel anything that does not get immediately matched
+- **reference** is an optional string field you can provide if you wish
+
+## Error Messages
+
+​The BetDEX API uses standard HTTP status codes to indicate successful or error responses.
+
+| Status Code | Description |
+| :-- | :-- |
+| `200` | OK — Request succeeded |
+| `400` | Bad Request — The request was invalid or malformed |
+| `401` | Unauthorized — Authentication failed or token expired |
+| `404` | Not Found — The requested resource does not exist |
+| `500` | Internal Server Error — Something went wrong on the server |
+
+## Usage & Rate Limits
+
+​BetDEX strives to provide a strong experience for all API & website customers alike - we simply want to allow you to trade with us however you wish.
+
+​In order to maintain a robust Exchange product for all, **general usage & rate limits of 500 requests per second will be applied**.
+
+​This currently is across both GET & POST calls, but will be split out in the near-future.
+
+​
+
+​
+
+## Terms of Use
+
+​You can view the latest Terms of Use for using the BetDEX API here - [https://terms.btdx.io/betdexApi/1.0.0.pdf](https://terms.btdx.io/betdexApi/1.0.0.pdf)
+
+​_Terms last updated 25th May 2026_
