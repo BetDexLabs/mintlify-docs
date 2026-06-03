@@ -848,7 +848,8 @@
         "tags": [
           "Wallets"
         ],
-        "summary": "Credit wallet with 1000 units of a given currency",
+        "summary": "Credit wallet with test funds",
+        "description": "Credit wallet with 1000 units of a given currency (only available on sandbox environment)",
         "operationId": "creditWallet",
         "parameters": [
           {
