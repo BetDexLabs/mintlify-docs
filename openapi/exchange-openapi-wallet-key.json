@@ -5664,6 +5664,90 @@
           "participantCodes"
         ]
       },
+      "OffsetPageMetaInstantLong": {
+        "type": "object",
+        "properties": {
+          "_primary_document": {
+            "type": "string",
+            "enum": [
+              "apiKeys",
+              "apps",
+              "categories",
+              "commissionRates",
+              "currencies",
+              "depositAddresses",
+              "depositRequests",
+              "events",
+              "eventGroups",
+              "externalReferences",
+              "externalReferenceSources",
+              "heartbeats",
+              "ids",
+              "markets",
+              "marketOutcomes",
+              "marketPositions",
+              "marketTypes",
+              "orders",
+              "participants",
+              "prices",
+              "priceLadders",
+              "sessions",
+              "statuses",
+              "subcategories",
+              "trades",
+              "transactions",
+              "wallets",
+              "walletMetrics",
+              "withdrawalRequests"
+            ]
+          },
+          "_count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "_offset": {
+            "$ref": "#/components/schemas/OffsetRequestInstantLong"
+          },
+          "_next_offset": {
+            "$ref": "#/components/schemas/OffsetRequestInstantLong"
+          }
+        }
+      },
+      "OffsetPageOrderResponse": {
+        "type": "object",
+        "properties": {
+          "_meta": {
+            "$ref": "#/components/schemas/OffsetPageMetaInstantLong"
+          },
+          "documents": {
+            "$ref": "#/components/schemas/OrdersResponseDocuments"
+          }
+        }
+      },
+      "OffsetRequestInstantLong": {
+        "type": "object",
+        "properties": {
+          "offset": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "secondaryOffset": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "limit": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "sort": {
+            "type": "string",
+            "enum": [
+              "ASC",
+              "DESC"
+            ]
+          }
+        }
+      },
       "Order": {
         "allOf": [
           {
@@ -5749,6 +5833,10 @@
                   "RetainUnmatched",
                   "CancelUnmatched"
                 ]
+              },
+              "cancellationReason": {
+                "type": "string",
+                "description": "Only present for Cancelled or Failed orders - why an order is Cancelled or Failed"
               }
             }
           }
@@ -5854,6 +5942,53 @@
       },
       "OrderResult": {
         "type": "object"
+      },
+      "OrdersResponseDocuments": {
+        "type": "object",
+        "properties": {
+          "orders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Order"
+            }
+          },
+          "markets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MarketSummary"
+            }
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EventSummary"
+            }
+          },
+          "trades": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TradeSummary"
+            }
+          },
+          "eventGroups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EventGroupSummary"
+            }
+          },
+          "subcategories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SubcategorySummary"
+            }
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CategorySummary"
+            }
+          }
+        }
       },
       "OrderSummary": {
         "type": "object",
