@@ -76,6 +76,16 @@ To subscribe to updates, clients must send a `SubscriptionRequest` describing th
 }
 ```
 
+### UnsubscriptionRequest
+
+```json
+{
+  "action": "unsubscribe",
+  "subscriptionType": "EventUpdate | MarketUpdate | MarketPriceUpdate | MarketStatusUpdate | OrderUpdate | WalletUpdate",
+  "subscriptionIds": ["string"]
+}
+```
+
 ## Update messages
 
 After authentication and subscription, clients will receive update messages when markets, orders, or wallets are updated on the platform. The supported update message formats are listed below.

@@ -2,7 +2,7 @@
 title: "FAQs"
 ---
 
-### General
+## General
 
 #### Is the API open to the public?
 
@@ -29,7 +29,7 @@ title: "FAQs"
 
 ​
 
-### Order Creation
+## Order Creation
 
 ​
 
@@ -88,7 +88,7 @@ Likewise if you subscribe to OrderUpdate and/or MarketPriceUpdate in the Stream 
 
 Currently, no - we charge a flat 1% commission on net profits per market, regardless of whether the order is a maker or a taker. This may change in the future; however, we'll of course communicate any changes well in advance.
 
-### Order Cancellation
+## Order Cancellation
 
 #### Using batch cancellation (/orders/cancel-v2), what happens if you attempt to cancel 5 order ids, of which 1 is already cancelled?
 
@@ -96,7 +96,7 @@ If the order has been cancelled already, it won't be amended further, and won't 
 
 So if the request parameters don't match an order (ie. it's been cancelled already, or fully matched) then it will not be returned in the response.
 
-### Settlement
+## Settlement
 
 #### Are settlement/resolution statuses available programmatically?
 
@@ -106,7 +106,7 @@ Yes when markets are settled, if you are subscribed to:
 - OrderUpdate --\> order status would update to Won / Lost / Voided.
 - EventUpdate --\> event active status would update to "inactive".
 
-### Sessions
+## Sessions
 
 #### After creating a session, I call other APIs but they return 400 error. What’s wrong?
 
@@ -116,13 +116,13 @@ Ensure that you have included accessToken pasted under authorization in the requ
 
 The initial accessToken provided expires after 30 mins. The refresh token provided, which can be used in POST/sessions/refresh to extend the session for a further 30 mins, will expire after 1 week.
 
-### Common Errors
+## Common Errors
 
 #### I’m receiving a 403 error ‘the request could not be satisfied’. What should I do?
 
 Cloudfront may be rejecting your requests, as one of the rules is that you specify a user agent. Adding CURLOPT\_USERAGENT =\> 'BetMonitor/1.0 (client)', into the curl options should fix the issue.
 
-### Stream API / Websockets
+## Stream API / Websockets
 
 #### What are the connection timeouts?
 
@@ -138,7 +138,7 @@ We are planning to move to a different websocket provider which should alleviate
 
 Check to ensure your connection has not disconnected due to one of the timeout reasons above.
 
-### Events & Markets
+## Events & Markets
 
 #### What does the API show if an event is cancelled or postponed?
 
@@ -183,16 +183,27 @@ Team/participants are generally re-used across events - ie. so for NBA playoffs,
 
 Note, the ids may differ between Sandbox & Prod, but are consistent in the same env.
 
-### Rate Limits
+#### What in-play delays are applied?
+
+- Tennis - 3s
+- Basketball - 0s
+- MLB - 0s
+- All else - 5s
+
+## Rate Limits
 
 #### What are the API rate limits?
 
-We are defining these next week, however will be in the region of 500-1000 requests per second. Initially this will be across all reads (GET) and writes (POST), but will be split out a bit more as we grow.
+​BetDEX strives to provide a strong experience for all API & website customers alike - we simply want to allow you to trade with us however you wish.
+
+​In order to maintain a robust Exchange product for all, **general rate limits of 5000 requests per minute are enforced**.
+
+​This currently is across both GET & POST calls, but will be split out in the near-future.
 
 #### Are websocket subscriptions limited?
 
 Currently not, but again we may introduce this as we grow. The recommendation is that you subscribe to the wildcard "\*" which will give you all market prices / order updates / etc in one subscription, rather than market by market.
 
-### Any other questions?
+## Any other questions?
 
 If you have another question which we've not answered here, please get in touch either on our Discord channel, or via Live Chat on our website.
