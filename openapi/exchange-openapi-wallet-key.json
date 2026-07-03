@@ -5490,6 +5490,142 @@
           }
         }
       },
+      "MarketSettled": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "ownerAppId": {
+            "type": "string"
+          },
+          "event": {
+            "$ref": "#/components/schemas/DocumentReference"
+          },
+          "name": {
+            "type": "string"
+          },
+          "marketType": {
+            "$ref": "#/components/schemas/DocumentReference"
+          },
+          "marketValue": {
+            "type": "string"
+          },
+          "marketDiscriminator": {
+            "type": "string"
+          },
+          "currencyId": {
+            "type": "string"
+          },
+          "inPlayStatus": {
+            "type": "string",
+            "enum": [
+              "NotApplicable",
+              "PrePlay",
+              "InPlay"
+            ]
+          },
+          "inPlayDelay": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "crossMatchingEnabled": {
+            "type": "boolean"
+          },
+          "published": {
+            "type": "boolean"
+          },
+          "suspended": {
+            "type": "boolean"
+          },
+          "lockAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "settledAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "marketLockAction": {
+            "type": "string",
+            "enum": [
+              "None",
+              "CancelUnmatchedLiquidity"
+            ]
+          },
+          "eventStartAction": {
+            "type": "string",
+            "enum": [
+              "None",
+              "CancelUnmatchedLiquidity"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "Initializing",
+              "Open",
+              "Locking",
+              "Locked",
+              "Settling",
+              "Settled",
+              "Voiding",
+              "Voided",
+              "Closed"
+            ]
+          },
+          "marketOutcomes": {
+            "$ref": "#/components/schemas/DocumentReference"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "modifiedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "eventExpectedStartTime": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "MarketsHistoricalResponseDocuments": {
+        "type": "object",
+        "properties": {
+          "markets": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MarketSettled"
+            }
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EventSummary"
+            }
+          },
+          "eventGroups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EventGroupSummary"
+            }
+          },
+          "subcategories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SubcategorySummary"
+            }
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CategorySummary"
+            }
+          }
+        }
+      },
       "MarketSummary": {
         "type": "object",
         "properties": {
@@ -5663,6 +5799,17 @@
         "required": [
           "participantCodes"
         ]
+      },
+      "OffsetPageMarketHistoricalResponse": {
+        "type": "object",
+        "properties": {
+          "_meta": {
+            "$ref": "#/components/schemas/OffsetPageMetaInstantLong"
+          },
+          "documents": {
+            "$ref": "#/components/schemas/MarketsHistoricalResponseDocuments"
+          }
+        }
       },
       "OffsetPageMetaInstantLong": {
         "type": "object",
