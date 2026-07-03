@@ -1437,6 +1437,126 @@
         }
       }
     },
+    "/markets/historical": {
+      "get": {
+        "tags": [
+          "Markets",
+          "Trades"
+        ],
+        "summary": "Fetch historical settled markets",
+        "description": "Fetch historical (settled) markets, filtered by query type (settlement date or event start date). Optionally filter by event. Pagination is by offset using the selected queryType timestamp (settledAt or eventExpectedStartTime) and id as the primary and secondary offsets. Fetch the initial page without any offsets set, and use returned _next_offset values iteratively until _next_offset is null, or _count is 0.",
+        "operationId": "getMarketsHistorical",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Header with the accessToken for the current session",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "Bearer eyJ0eXAiOiJ...bjV7AtDgA"
+          },
+          {
+            "name": "queryType",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "SettledDate",
+                "EventStartDate"
+              ]
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "beginning of the date range filter (inclusive)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "description": "end of the date range filter (inclusive)",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "eventId",
+            "in": "query",
+            "description": "optional event id to filter results by",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Value to offset the current page request by (inclusive)",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "secondaryOffset",
+            "in": "query",
+            "description": "Secondary offset value, i.e., if offset value is non-unique (exclusive)",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of elements to retrieve",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria in the format: asc|desc. \"\n\nDefault sort order is ascending.\n",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/OffsetPageMarketHistoricalResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Session invalid",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/OffsetPageMarketHistoricalResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/markets/{id}": {
       "get": {
         "tags": [
@@ -2536,6 +2656,238 @@
         }
       }
     },
+    "/orders/cancelled": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Fetch cancelled and failed orders by wallet",
+        "description": "Fetch cancelled (unmatched/unfilled) and failed orders for the given wallet that were created in the given date range. Optionally filter by market. Pagination is by offset using createdAt and id, as the primary and secondary offsets. Fetch initial page without any offsets set, and use returned _next_offset values iteratively until _next_offset is null, or _count is 0.",
+        "operationId": "getOrdersCancelled",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "walletId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fromCreatedAt",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "toCreatedAt",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "marketId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Value to offset the current page request by (inclusive)",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "secondaryOffset",
+            "in": "query",
+            "description": "Secondary offset value, i.e., if offset value is non-unique (exclusive)",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of elements to retrieve",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria in the format: asc|desc. \"\n\nDefault sort order is ascending.\n",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/OffsetPageOrderResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Session invalid",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/OffsetPageOrderResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orders/historical": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "summary": "Fetch historical won, lost or voided orders by wallet",
+        "description": "Fetch historical (won, lost or voided) orders for the given wallet, filtered by query type (settlement date or event start date). Optionally filter by market. Pagination is by offset using the selected queryType timestamp (settledAt or eventExpectedStartTime) and id as the primary and secondary offsets. Fetch the initial page without any offsets set, and use returned _next_offset values iteratively until _next_offset is null, or _count is 0.",
+        "operationId": "getOrdersHistorical",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "walletId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "queryType",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "SettledDate",
+                "EventStartDate"
+              ]
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "marketId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Value to offset the current page request by (inclusive)",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "secondaryOffset",
+            "in": "query",
+            "description": "Secondary offset value, i.e., if offset value is non-unique (exclusive)",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of elements to retrieve",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria in the format: asc|desc. \"\n\nDefault sort order is ascending.\n",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/OffsetPageOrderHistoricalResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Session invalid",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/OffsetPageOrderHistoricalResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/orders/settled": {
       "get": {
         "tags": [
@@ -3445,6 +3797,128 @@
         }
       }
     },
+    "/trades/historical": {
+      "get": {
+        "tags": [
+          "Trades"
+        ],
+        "summary": "Fetch historical won, lost or voided trades by wallet",
+        "description": "Fetch historical (won, lost or voided) trades for the given wallet, filtered by query type (settlement date or event start date). Optionally filter by market. Pagination is by offset using the selected queryType timestamp (settledAt or eventExpectedStartTime) and id as the primary and secondary offsets. Fetch the initial page without any offsets set, and use returned _next_offset values iteratively until _next_offset is null, or _count is 0.",
+        "operationId": "getTradesHistorical",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "walletId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "queryType",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "SettledDate",
+                "EventStartDate"
+              ]
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "marketId",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Value to offset the current page request by (inclusive)",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "secondaryOffset",
+            "in": "query",
+            "description": "Secondary offset value, i.e., if offset value is non-unique (exclusive)",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Maximum number of elements to retrieve",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria in the format: asc|desc. \"\n\nDefault sort order is ascending.\n",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/OffsetPageTradeHistoricalResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Session invalid",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/OffsetPageTradeHistoricalResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/trades/{id}": {
       "get": {
         "tags": [
@@ -3703,6 +4177,124 @@
             "in": "query",
             "description": "List of market ids to filter positions by",
             "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedMarketPositionResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Session invalid",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedMarketPositionResponse"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Missing permission",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedMarketPositionResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagedMarketPositionResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/wallets/{id}/positions-all": {
+      "get": {
+        "tags": [
+          "Trades",
+          "Wallets"
+        ],
+        "summary": "Get All Market Positions",
+        "description": "Fetch all market positions for the specified wallet",
+        "operationId": "getAllMarketPositions",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "description": "Header with the accessToken for the current session",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "Bearer eyJ0eXAiOiJ...bjV7AtDgA"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "wallet id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Filter market positions by settlement status. Active returns positions where settlement has not happened yet; Settled returns positions that have been settled. Defaults to Active",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "Active",
+              "enum": [
+                "Active",
+                "Settled"
+              ]
+            },
+            "example": "Active"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "Zero-based page index (0..N)",
+            "schema": {
+              "type": "integer",
+              "default": 0
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "The size of the page to be returned",
+            "schema": {
+              "type": "integer",
+              "default": 20
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sorting criteria in the format: property,(asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
             "schema": {
               "type": "array",
               "items": {
