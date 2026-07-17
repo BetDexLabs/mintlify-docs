@@ -57,6 +57,10 @@
       {
         "group": "REST API (2)",
         "openapi": "https://docs.api.monacoprotocol.xyz/v1/exchange-openapi.json"
+      },
+      {
+        "group": "REST API (2)",
+        "openapi": "https://docs.api.monacoprotocol.xyz/v1/exchange-openapi.json"
       }
     ]
   },
