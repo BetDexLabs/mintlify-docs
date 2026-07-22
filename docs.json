@@ -23,7 +23,7 @@
       },
       {
         "group": "REST API",
-        "openapi": "https://docs.api.monacoprotocol.xyz/v1/exchange-openapi.json",
+        "openapi": "https://docs.api.monacoprotocol.xyz/api/v1/exchange-openapi-wallet-key.json",
         "pages": [
           "rest-api/overview"
         ]
@@ -33,34 +33,6 @@
         "pages": [
           "stream-api"
         ]
-      },
-      {
-        "group": "REST API (2)",
-        "openapi": "https://docs.api.monacoprotocol.xyz/v1/exchange-openapi.json"
-      },
-      {
-        "group": "REST API (2)",
-        "openapi": "https://docs.api.monacoprotocol.xyz/v1/exchange-openapi.json"
-      },
-      {
-        "group": "REST API (2)",
-        "openapi": "https://docs.api.monacoprotocol.xyz/v1/exchange-openapi.json"
-      },
-      {
-        "group": "REST API (2)",
-        "openapi": "https://docs.api.monacoprotocol.xyz/v1/exchange-openapi.json"
-      },
-      {
-        "group": "REST API (2)",
-        "openapi": "https://docs.api.monacoprotocol.xyz/v1/exchange-openapi.json"
-      },
-      {
-        "group": "REST API (2)",
-        "openapi": "https://docs.api.monacoprotocol.xyz/v1/exchange-openapi.json"
-      },
-      {
-        "group": "REST API (2)",
-        "openapi": "https://docs.api.monacoprotocol.xyz/v1/exchange-openapi.json"
       }
     ]
   },
