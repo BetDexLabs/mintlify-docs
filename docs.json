@@ -26,8 +26,7 @@
         "openapi": "https://docs.api.monacoprotocol.xyz/api/v1/exchange-openapi-wallet-key.json",
         "pages": [
           "rest-api/overview"
-        ],
-        "expanded": true
+        ]
       },
       {
         "group": "Stream API",
@@ -37,7 +36,6 @@
       },
       {
         "group": "REST API 2",
-        "expanded": true,
         "openapi": "https://docs.api.monacoprotocol.xyz/api/v1/exchange-openapi-wallet-key.json"
       }
     ]
