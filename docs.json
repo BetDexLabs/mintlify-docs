@@ -23,7 +23,7 @@
       },
       {
         "group": "REST API",
-        "openapi": "openapi/exchange-openapi-wallet-key.json",
+        "openapi": "https://docs.api.monacoprotocol.xyz/api/v1/exchange-openapi-wallet-key.json",
         "pages": [
           "rest-api/overview"
         ]
@@ -33,10 +33,6 @@
         "pages": [
           "stream-api"
         ]
-      },
-      {
-        "group": "REST API 2",
-        "openapi": "https://docs.api.monacoprotocol.xyz/api/v1/exchange-openapi-wallet-key.json"
       }
     ]
   },
