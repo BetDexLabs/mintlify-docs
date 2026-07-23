@@ -32,7 +32,8 @@
           "how-to-get-my-api-key",
           {
             "group": "User API",
-            "openapi": "https://docs.api.monacoprotocol.xyz/api/v1/exchange-openapi-wallet-key.json"
+            "openapi": "https://docs.api.monacoprotocol.xyz/api/v1/exchange-openapi-wallet-key.json",
+            "icon": "rectangle-api"
           }
         ]
       },
@@ -43,7 +44,8 @@
           "how-to-get",
           {
             "group": "App Builder  API",
-            "openapi": "https://docs.api.monacoprotocol.xyz/api/v1/exchange-openapi-general.json"
+            "openapi": "https://docs.api.monacoprotocol.xyz/api/v1/exchange-openapi-general.json",
+            "icon": "rectangle-api"
           }
         ]
       },
