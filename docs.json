@@ -17,8 +17,7 @@
         "group": "Get started",
         "pages": [
           "index",
-          "faqs",
-          "how-to-get-my-api-key"
+          "faqs"
         ]
       },
       {
@@ -27,16 +26,24 @@
         "hidden": true
       },
       {
-        "group": "REST API",
+        "group": "BetDEX API (basic)",
         "pages": [
-          {
-            "group": "App Builder  API",
-            "openapi": "https://docs.api.monacoprotocol.xyz/api/v1/exchange-openapi-general.json"
-          },
           "rest-api/overview",
+          "how-to-get-my-api-key",
           {
             "group": "User API",
             "openapi": "https://docs.api.monacoprotocol.xyz/api/v1/exchange-openapi-wallet-key.json"
+          }
+        ]
+      },
+      {
+        "group": "BetDEX API (premium)",
+        "pages": [
+          "overview",
+          "how-to-get",
+          {
+            "group": "App Builder  API",
+            "openapi": "https://docs.api.monacoprotocol.xyz/api/v1/exchange-openapi-general.json"
           }
         ]
       },
@@ -45,10 +52,6 @@
         "pages": [
           "stream-api"
         ]
-      },
-      {
-        "group": "Rest API",
-        "pages": []
       }
     ]
   },
