@@ -41,6 +41,10 @@
           {
             "group": "BetDEX UI API",
             "openapi": "https://docs.api.monacoprotocol.xyz/api/v1/exchange-openapi-wallet-key.json"
+          },
+          {
+            "group": "App  API",
+            "pages": []
           }
         ]
       }
