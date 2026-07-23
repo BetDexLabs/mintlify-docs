@@ -44,7 +44,7 @@
           },
           {
             "group": "App  API",
-            "pages": []
+            "openapi": "https://docs.api.monacoprotocol.xyz/api/v1/exchange-openapi-general.json"
           }
         ]
       }
