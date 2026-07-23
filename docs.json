@@ -24,9 +24,7 @@
       {
         "group": "REST API",
         "openapi": "https://docs.api.monacoprotocol.xyz/api/v1/exchange-openapi-wallet-key.json",
-        "pages": [
-          "rest-api/overview"
-        ]
+        "hidden": true
       },
       {
         "group": "Stream API",
@@ -37,7 +35,7 @@
       {
         "group": "Rest API",
         "pages": [
-          "bet-dex-ui-api",
+          "rest-api/overview",
           {
             "group": "BetDEX UI API",
             "openapi": "https://docs.api.monacoprotocol.xyz/api/v1/exchange-openapi-wallet-key.json"
