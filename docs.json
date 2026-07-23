@@ -31,11 +31,11 @@
         "pages": [
           "rest-api/overview",
           {
-            "group": "BetDEX UI API",
+            "group": "BetDEX User API",
             "openapi": "https://docs.api.monacoprotocol.xyz/api/v1/exchange-openapi-wallet-key.json"
           },
           {
-            "group": "App  API",
+            "group": "App Builder  API",
             "openapi": "https://docs.api.monacoprotocol.xyz/api/v1/exchange-openapi-general.json"
           }
         ]
