@@ -30,15 +30,13 @@
         "group": "REST API",
         "pages": [
           {
-            "group": "User API",
-            "openapi": "https://docs.api.monacoprotocol.xyz/api/v1/exchange-openapi-wallet-key.json",
-            "pages": [
-              "rest-api/overview"
-            ]
-          },
-          {
             "group": "App Builder  API",
             "openapi": "https://docs.api.monacoprotocol.xyz/api/v1/exchange-openapi-general.json"
+          },
+          "rest-api/overview",
+          {
+            "group": "User API",
+            "openapi": "https://docs.api.monacoprotocol.xyz/api/v1/exchange-openapi-wallet-key.json"
           }
         ]
       },
