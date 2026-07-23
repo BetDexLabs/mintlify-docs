@@ -24,8 +24,20 @@
       {
         "group": "REST API",
         "openapi": "https://docs.api.monacoprotocol.xyz/api/v1/exchange-openapi-wallet-key.json",
+        "hidden": true
+      },
+      {
+        "group": "REST API",
         "pages": [
-          "rest-api/overview"
+          "rest-api/overview",
+          {
+            "group": "BetDEX User API",
+            "openapi": "https://docs.api.monacoprotocol.xyz/api/v1/exchange-openapi-wallet-key.json"
+          },
+          {
+            "group": "App Builder  API",
+            "openapi": "https://docs.api.monacoprotocol.xyz/api/v1/exchange-openapi-general.json"
+          }
         ]
       },
       {
