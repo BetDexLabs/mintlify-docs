@@ -33,7 +33,8 @@
           {
             "group": "API Docs (basic)",
             "openapi": "https://docs.api.monacoprotocol.xyz/api/v1/exchange-openapi-wallet-key.json",
-            "icon": "rectangle-api"
+            "icon": "rectangle-api",
+            "expanded": true
           }
         ]
       },
