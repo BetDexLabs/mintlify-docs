@@ -27,13 +27,7 @@
         "hidden": true
       },
       {
-        "group": "Stream API",
-        "pages": [
-          "stream-api"
-        ]
-      },
-      {
-        "group": "Rest API",
+        "group": "REST API",
         "pages": [
           "rest-api/overview",
           {
@@ -44,6 +38,12 @@
             "group": "App  API",
             "openapi": "https://docs.api.monacoprotocol.xyz/api/v1/exchange-openapi-general.json"
           }
+        ]
+      },
+      {
+        "group": "Stream API",
+        "pages": [
+          "stream-api"
         ]
       }
     ]
