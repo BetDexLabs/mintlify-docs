@@ -28,7 +28,7 @@
       {
         "group": "BetDEX API (basic)",
         "pages": [
-          "rest-api/overview",
+          "rest-api/ui/overview",
           "how-to-get-my-api-key",
           {
             "group": "API Docs (basic)",
@@ -41,7 +41,7 @@
       {
         "group": "BetDEX API (premium)",
         "pages": [
-          "overview",
+          "rest-api/apps/overview",
           "how-to-get",
           {
             "group": "API Docs (premium)",
