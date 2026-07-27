@@ -48,7 +48,8 @@
             "openapi": "https://docs.api.monacoprotocol.xyz/api/v1/exchange-openapi-general.json",
             "icon": "rectangle-api"
           }
-        ]
+        ],
+        "expanded": true
       },
       {
         "group": "Stream API",
