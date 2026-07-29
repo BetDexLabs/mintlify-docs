@@ -42,6 +42,7 @@
         "group": "BetDEX API (premium)",
         "pages": [
           "rest-api/apps/overview",
+          "building-an-app",
           "how-to-get",
           {
             "group": "API Docs (premium)",

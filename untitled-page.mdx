@@ -1,0 +1,235 @@
+---
+title: "Building an App"
+hidden: true
+icon: "cube"
+description: "Building your own exchange UI? Or creating a trading software product? Here's how you can use BetDEX's liquidity for your own product.  "
+---
+
+This guide walks you through a few key steps you might need to follow for connecting your app to BetDEX, getting market prices & placing bets.
+
+# Before You Start
+
+Make sure you've got your:
+
+- App ID
+- API Key
+
+If you don't have these yet, contact us at [api@betdex.com](mailto:api@betdex.com) and we'll help you out.
+
+Also remember the **base URLs** as follows:
+
+<CodeGroup>
+
+```text Sandbox
+https://sandbox.api.btdx.io/
+```
+
+```text Production
+https://prod.api.btdx.io/
+```
+
+</CodeGroup>
+
+# Fee Structure
+
+BetDEX charge app builders a **standard 1% fee** on net profits per market - **this is the same fee as we charge users who bet on our website.** This would be paid by your end users (if they make a profit on a market), **to us**. 
+
+App builders then have the ability to add **product commission** on top of that. This would be paid by your end users (if they make a profit on a market), **to you**. See below on how to set this. 
+
+<Tip>
+  For example, if you set product commission to 2%:
+
+  - User 123 bets \$1k @ 2.20, backing Knicks -2.5
+  - Knicks win 140-130, therefore user wins. Gross profit = \$1000 x 1.20 = \$1200
+  - Payouts are as follows
+    - BetDEX collects 1% platform fee of \$1200 x 1% = \$12
+    - You collect 2% product commission of \$1200 x 2% = \$24
+    - User receives back \$2166 (=\$1200 x 97% \+ original \$1k stake)
+</Tip>
+
+# 1. Authenticate
+
+All requests require an `Authorization` header containing a session `accessToken`:
+
+```http
+Authorization: Bearer <accessToken>
+```
+
+To obtain a token, use POST/sessions. See [https://developers.betdex.com/api-reference/session-management/create-a-session](https://developers.betdex.com/api-reference/session-management/create-a-session) for more info. 
+
+```text
+curl --request POST \
+  --url https://sandbox.api.btdx.io/sessions \
+  --header 'Content-Type: application/json' \
+  --data '
+{
+  "appId": "ANAPPID",
+  "walletId": "OPTIONAL-ONLY-IF-APIKEY-IS-TYPE-WALLET",
+  "apiKey": "password1234"
+}
+'
+```
+
+# 2. Get Open Markets
+
+Depending on which sports, leagues, market types you are looking for, there are plenty of ways to get the information you need. At a basic level:
+
+- [GET/categories](https://developers.betdex.com/api-reference/event-categories/fetch-all-event-categories) - will return you the list of categories we offer. Currently this is just SPORTS, but we will expand in future
+- [GET/subcategories](https://developers.betdex.com/api-reference/event-subcategories/fetch-subcategories-by-categories) - will return you the list of sports we offer
+- [GET/event-groups](https://developers.betdex.com/api-reference/event-groups/fetch-all-event-groups) (optionally filtered by subcategoryIds) - will return you the list of tournaments/leagues we offer
+- [GET/events](https://developers.betdex.com/api-reference/events/fetch-events) - will return you the list of events. There are plenty of filtering options here, most commonly used ones being:
+  - eventGroupIds - to filter by tournament / league
+  - Active = True - to get active events only
+  - Starting - to get events that are live, starting today (UTC), starting later than today (after 00:00 UTC tomorrow), or by a range
+
+- [GET/markets](https://developers.betdex.com/api-reference/markets/fetch-markets) - to get the list of markets. Again plenty of filtering options here, most commonly used ones being:
+  - eventIds - to filter by specific event(s)
+  - Statuses = Open - to get markets that are open for trading
+  - marketTypeIds - to a specific market type like Handicaps, Moneyline, Totals, etc
+
+# 3. Get Market Prices
+
+To get the prices & liquidity available on a given market, you can use:
+
+1. [GET/market-prices?marketIds=\[....\]](https://developers.betdex.com/api-reference/market-prices/fetch-market-prices) - to get prices for multiple markets
+2. [GET/markets/\{id\}/prices](https://developers.betdex.com/api-reference/markets/fetch-market-prices) - to get prices for a single market
+3. Our Stream API (websocket) to subscribe to receive [MarketPriceUpdates](https://developers.betdex.com/stream-api#marketpriceupdatemessage)
+
+An example response:
+
+```text expandable
+{
+    "prices": [
+        {
+            "side": "Against",
+            "outcomeId": "1081970",
+            "price": 2.00,
+            "amount": 37.770000000000,
+            "matched": 0
+        },
+        {
+            "side": "Against",
+            "outcomeId": "1081971",
+            "price": 1.36,
+            "amount": 5.340000000000,
+            "matched": 0
+        },
+        {
+            "side": "Against",
+            "outcomeId": "1081971",
+            "price": 1.49,
+            "amount": 33.170000000000,
+            "matched": 0
+        },
+        {
+            "side": "For",
+            "outcomeId": "1081970",
+            "price": 3.45,
+            "amount": 24.840000000000,
+            "matched": 0
+        },
+        {
+            "side": "For",
+            "outcomeId": "1081970",
+            "price": 3.65,
+            "amount": 22.070000000000,
+            "matched": 0
+        },
+        {
+            "side": "For",
+            "outcomeId": "1081971",
+            "price": 2.88,
+            "amount": 34.310000000000,
+            "matched": 0
+        },
+        {
+            "side": "For",
+            "outcomeId": "1081972",
+            "price": 2.78,
+            "amount": 7.150000000000,
+            "matched": 0
+        }
+    ],
+    "_meta": {
+        "_primary_document": "prices",
+        "_count": 7,
+        "_page": null
+    }
+}
+```
+
+<Warning>
+  It's important to note here - the **SIDE** denotes what is **already on the market.**
+
+  So **side = against** with **price = 2.00** and **amount = 37.77** means there is \$37.77 **available to back** at price of 2.0 (odds)
+
+  **side = for** with **price = 3.45** and **amount = 24.84** means there is \$24.84 **available to lay** at price of 3.45 (odds)
+
+  Both of these can be visualised below.
+
+  <Frame>
+    ![Screenshot 2026 07 29 At 14 27 02](/images/Screenshot-2026-07-29-at-14.27.02.png "Screenshot 2026 07 29 At 14 27 02")
+  </Frame>
+</Warning>
+
+# 4. Creating Wallets
+
+When a new user signs up on your app / platform, you would create them a wallet using [POST/wallets](https://developers.betdex.com/api-reference/wallets/create-a-wallet).
+
+The reference used here can be anything, but should be unique & tie to some sort of user id on your platform side (for example just incrementing numbers 1,2,3,..etc; or some random string like abcde-12345-fghij-678910)
+
+Description can be anything, such as a username your users have set. 
+
+So if you had 100 users sign up, then you would have 100 unique wallets.
+
+# 5. Placing Bets
+
+Using the accessToken from the session generated (see Authentication above), then when a user comes to placing a trade via your platform, your platform should call [POST/orders](https://developers.betdex.com/api-reference/orders/create-order) with
+
+- accessToken in the request header as authorization
+- the user's unique walletId in the body 
+- all other required bet details in the body 
+
+# 6. Charging Commission
+
+As outlined above, 'commission' is something App builders have the ability to add on top of platform fees (which we collect). 
+
+This would be paid by your end users (if they make a profit on a market), **to you**. 
+
+## 6.1 Setting a default commission rate
+
+Simply call [POST/apps/\{id\}/commission-rates](https://developers.betdex.com/api-reference/app-management/create-a-new-app-commission-rate) with the desired % in the request body. Commission rates can have a value between 0.0 and 1.0, where e.g., 0.01 would be 1% of the profit.
+
+<Tip>
+  The default rate can be changed at any time, and the latest one set will be the latest.
+
+  You can always check the latest using [GET/apps/\{id\}/commission-rates](https://developers.betdex.com/api-reference/app-management/fetch-commission-rates).
+</Tip>
+
+## 6.2 Overriding the default rate per bet
+
+If you wish to charge a different commission rate without changing the default, simply include `commissionRateId` in the order request.
+
+```text expandable highlight={16} focus={16}
+curl --request POST \
+  --url https://sandbox.api.btdx.io/orders \
+  --header 'Content-Type: application/json' \
+  --header 'authorization: <authorization>' \
+  --data '
+{
+  "walletId": "string",
+  "marketId": "string",
+  "side": "For",
+  "outcomeId": "string",
+  "price": 0,
+  "stake": 0,
+  "keepWhenInPlay": true,
+  "matchBehavior": "RetainUnmatched",
+  "reference": "string",
+  "commissionRateId": "string"
+}'
+```
+
+By omitting `commissionRateId` in the order request, the app's default<br />commission rate will be used (or 0% if not set).
+
+This might be useful if you wish to drive promotions and charge less commission than the default.
