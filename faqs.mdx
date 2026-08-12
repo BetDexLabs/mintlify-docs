@@ -190,6 +190,24 @@ Note, the ids may differ between Sandbox & Prod, but are consistent in the same 
 - MLB - 0s
 - All else - 5s
 
+#### Is there a price ladder?
+
+Yes, you can get this from `GET /market-prices/ladder`<br />The summary of the ladder is:
+
+- Minimum odds are 1.01
+- Maximum depth is 2 decimal points (ie. cannot accept 1.011)
+- Odds between 1.01 and 2 are in increments of 0.01
+- Odds between 2 and 3 are in increments of 0.02
+- Odds between 3 and 4 are in increments of 0.05
+- Odds between 4 and 6 are in increments of 0.1
+- Odds between 6 and 10 are in increments of 0.2
+- Odds between 10 and 20 are in increments of 0.5
+- Odds between 20 and 30 are in increments of 1
+- Odds between 30 and 50 are in increments of 2
+- Odds between 50 and 100 are in increments of 5
+- Odds between 100 and 1000 are in increments of 10
+- Maximum odds are 1000
+
 ## Rate Limits
 
 #### What are the API rate limits?
