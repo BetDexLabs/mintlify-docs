@@ -31,6 +31,13 @@
           "rest-api/overview",
           "how-to-get-my-api-key",
           {
+            "group": "BetDEX Builder Program",
+            "pages": [
+              "untitled-page-2",
+              "untitled-page-3"
+            ]
+          },
+          {
             "group": "API Docs (basic)",
             "openapi": "https://docs.api.monacoprotocol.xyz/api/v1/exchange-openapi-wallet-key.json",
             "icon": "rectangle-api",
