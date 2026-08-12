@@ -96,6 +96,23 @@ If the order has been cancelled already, it won't be amended further, and won't 
 
 So if the request parameters don't match an order (ie. it's been cancelled already, or fully matched) then it will not be returned in the response.
 
+#### What are the possible `cancellationReason`'s?
+
+Failed pending orders:
+
+- **A timeout in processing the order**: “TIMEOUT”
+- **A data issue processing the order**: system determined, but will be whatever we currently have for batch order creation if any of them fail due to a data issue (basically a database failure causing data inconsistency - shouldn’t really happen)
+
+Fully Cancelled orders:
+
+- **Cancelled on creation due to no match**: “CancelUnmatched applied“
+- **Cancelled by ID or by batch**: “Requested“
+- **Cancelled by stale heartbeat**: “Stale heartbeat“
+- **Cancelled at market transition to in-play**: “Market transition (market went in-play)“
+- **Cancelled when market locks**: “Market transition (status locked)“
+- **Cancelled at settlement because fully unmatched**: “Unmatched at settlement“
+- **Cancelled due to excess liquidity** (unused functionality): “Removing excess liquidity“
+
 ## Settlement
 
 #### Are settlement/resolution statuses available programmatically?
