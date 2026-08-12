@@ -18,7 +18,8 @@
         "pages": [
           "index",
           "faqs"
-        ]
+        ],
+        "expanded": true
       },
       {
         "group": "REST API",
@@ -68,7 +69,8 @@
   },
   "logo": {
     "light": "/images/betdex-logo-light.svg",
-    "dark": "/images/betdex-logo-light.svg"
+    "dark": "/images/betdex-logo-light.svg",
+    "href": "https://www.betdex.com"
   },
   "navbar": {
     "links": []
@@ -88,5 +90,19 @@
   "footer": {
     "socials": {
     }
-  }
+  },
+  "background": {
+    "color": {
+      "dark": "#161616"
+    }
+  },
+  "appearance": {
+    "default": "dark",
+    "strict": true
+  },
+  "fonts": {
+    "family": "Inter",
+    "weight": 400
+  },
+  "description": "Integrate with the BetDEX Exchange API. REST and WebSocket endpoints for real-time odds, order execution, and wallet management & payments on Solana blockchain. Get your API key and start building."
 }
