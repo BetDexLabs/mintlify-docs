@@ -35,7 +35,8 @@
             "pages": [
               "untitled-page-2",
               "untitled-page-3"
-            ]
+            ],
+            "hidden": true
           },
           {
             "group": "API Docs (basic)",
