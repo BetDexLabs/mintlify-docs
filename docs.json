@@ -33,8 +33,8 @@
           {
             "group": "BetDEX Builder Program",
             "pages": [
-              "untitled-page-2",
-              "untitled-page-3"
+              "builder-program-overview",
+              "bounties"
             ],
             "hidden": true
           },
