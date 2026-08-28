@@ -237,7 +237,28 @@ Yes, you can get this from `GET /market-prices/ladder`<br />The summary of the l
 
 #### Are websocket subscriptions limited?
 
-Currently not, but again we may introduce this as we grow. The recommendation is that you subscribe to the wildcard "\*" which will give you all market prices / order updates / etc in one subscription, rather than market by market.
+Yes. In order to maintain a robust Exchange product for all, the following general rate limits are enforced: 
+
+- 10 **active** connections at any one time
+- 500 **active** individual subscriptions at any one time - these can be spread across the number of active connections as needed.​
+
+<Tip>
+  **Recommendation:** for Stream API connections & subscriptions, if you are currently subscribing to markets by single market ids, then look at utilising the wildcard `"*"` instead.
+
+  For example, if you are subscribing just for a few markets, then 
+
+  ```text wrap
+    "subscriptionIds": ["400001, 400002, 400003, 400004, 400005, 400006, 400007, 400008, 400009, 400010"]
+  ```
+
+  makes sense.
+
+  However if you are subscribing to 501\+ markets, you'll need to use
+
+  ```text
+    "subscriptionIds": ["*"]
+  ```
+</Tip>
 
 ## Any other questions?
 

@@ -112,7 +112,7 @@ Where:
 - **price** is your desired odds/price
 
 <Tip>
-  Note, we have a fixed odds ladder - you can get this from GET/market-prices/ladder. 
+  Note, we have a fixed odds ladder - you can get this from GET/market-prices/ladder.
 
   Tip - we have the same ladder as Betfair.
 </Tip>
@@ -141,13 +141,36 @@ Where:
 
 ​BetDEX strives to provide a strong experience for all API & website customers alike - we simply want to allow you to trade with us however you wish.
 
-​In order to maintain a robust Exchange product for all, **general rate limits of 5000 requests per minute are enforced**.
+​In order to maintain a robust Exchange product for all, the following general rate limits are enforced: 
 
-​This currently is across both GET & POST calls, but will be split out in the near-future.
+### REST API
 
-​
+- 5000 requests per minute
 
-​
+This currently is across both GET & POST calls, but will be split out in the near-future.
+
+### ​Stream API
+
+- 10 **active** connections at any one time
+- 500 **active** individual subscriptions at any one time - these can be spread across the number of active connections as needed.​
+
+<Tip>
+  **Recommendation:** for Stream API connections & subscriptions, if you are currently subscribing to markets by single market ids, then look at utilising the wildcard `"*"` instead.
+
+  For example, if you are subscribing just for a few markets, then 
+
+  ```text wrap
+    "subscriptionIds": ["400001, 400002, 400003, 400004, 400005, 400006, 400007, 400008, 400009, 400010"]
+  ```
+
+  makes sense.
+
+  However if you are subscribing to 501\+ markets, you'll need to use
+
+  ```text
+    "subscriptionIds": ["*"]
+  ```
+</Tip>
 
 ## Terms of Use
 

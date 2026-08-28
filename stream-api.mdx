@@ -54,13 +54,23 @@ To subscribe to updates, clients must send a `SubscriptionRequest` describing th
   - `OrderUpdate`
   - `WalletUpdate`
 - The `subscriptionIds` field determines the entities to subscribe to. Allowed values are:
-  - For `EventUpdate`, `MarketUpdate`, `MarketPriceUpdate`, and `MarketStatusUpdate` it can be set to `*` or a `market-id`.
-  - For `OrderUpdate` it can be set to:
-    - `*`
-    - `order-id` — subscribe to updates for an order identified by its id.
-    - `order-app-id:*` — subscribe to all orders owned by `app-id` (only the connection's `app-id` is allowed).
-    - `order-app-id:order-wallet-id` — subscribe to all orders owned by `app-id` and `wallet-id` (only the connection's `app-id` is allowed, and the wallet must be owned by that `app-id`).
-  - For `WalletUpdate` it can be set to `*` or a `wallet-id`.
+  - For `EventUpdate`, it can be set to `*` or an `event-id`.
+  - For`MarketUpdate`, `MarketPriceUpdate`, and `MarketStatusUpdate` it can be set to `*` or a `market-id`.
+
+<Tip>
+  Please note for Market subscriptions:
+
+  **If you are subscribing to get a large set of markets (500\+), then you should subscribe using the wildcard** `* `**as otherwise you will hit subscription limits.**
+
+  **COMING SOON:** We will also be soon introducing ability to subscribe at a sport and league level too (ie. to subscribe to all Football or all NFL price updates in one subscription, rather than having to do the wildcard for all markets and then filtering down to what you need on your side)
+</Tip>
+
+- For `OrderUpdate` it can be set to:
+  - `*`
+  - `order-id` — subscribe to updates for an order identified by its id.
+  - `order-app-id:*` — subscribe to all orders owned by `app-id` (only the connection's `app-id` is allowed).
+  - `order-app-id:order-wallet-id` — subscribe to all orders owned by `app-id` and `wallet-id` (only the connection's `app-id` is allowed, and the wallet must be owned by that `app-id`).
+- For `WalletUpdate` it can be set to `*` or a `wallet-id`.
 
 <Note>
   Setting `subscriptionId` to `*` means the client will be subscribed to all updates of the given type.
@@ -75,6 +85,31 @@ To subscribe to updates, clients must send a `SubscriptionRequest` describing th
   "subscriptionIds": ["string"]
 }
 ```
+
+### Subscription Limits
+
+To keep the system performance strong for every client, we're introducing the following limits:
+
+- 10 **active** connections at any one time
+- 500 **active** individual subscriptions at any one time - these can be spread across the number of active connections as needed.​
+
+<Tip>
+  **Recommendation:** for Stream API connections & subscriptions, if you are currently subscribing to markets by single market ids, then look at utilising the wildcard `"*"` instead.
+
+  For example, if you are subscribing just for a few markets, then 
+
+  ```text wrap
+    "subscriptionIds": ["400001, 400002, 400003, 400004, 400005, 400006, 400007, 400008, 400009, 400010"]
+  ```
+
+  makes sense.
+
+  However if you are subscribing to 501\+ markets, you'll need to use
+
+  ```text
+    "subscriptionIds": ["*"]
+  ```
+</Tip>
 
 ### UnsubscriptionRequest
 
