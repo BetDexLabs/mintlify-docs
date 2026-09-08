@@ -54,7 +54,7 @@
           "how-to-get",
           {
             "group": "API Docs (premium)",
-            "openapi": "https://docs.api.monacoprotocol.xyz/api/v1/exchange-openapi-general-1.json",
+            "openapi": "https://docs.api.monacoprotocol.xyz/api/v1/exchange-openapi-general.json",
             "icon": "rectangle-api"
           }
         ]
