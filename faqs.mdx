@@ -113,6 +113,12 @@ Fully Cancelled orders:
 - **Cancelled at settlement because fully unmatched**: “Unmatched at settlement“
 - **Cancelled due to excess liquidity** (unused functionality): “Removing excess liquidity“
 
+### When cancelling, how do I know how much was cancelled?
+
+This is provided in the orders object as **stakeVoided**. 
+
+You can get this by making any /orders request, or if you are subscribed to OrderUpdate on the Stream API, you will receive an OrderUpdateMessage which includes the **stakeVoided**.
+
 ## Settlement
 
 #### Are settlement/resolution statuses available programmatically?
@@ -138,6 +144,12 @@ The initial accessToken provided expires after 30 mins. The refresh token provid
 #### I’m receiving a 403 error ‘the request could not be satisfied’. What should I do?
 
 Cloudfront may be rejecting your requests, as one of the rules is that you specify a user agent. Adding CURLOPT\_USERAGENT =\> 'BetMonitor/1.0 (client)', into the curl options should fix the issue.
+
+### Why is \_page returning as NULL?
+
+We only offer pagination on certain endpoints.
+
+`_page` will be null on endpoints that don't offer pagination.
 
 ## Stream API / Websockets
 
@@ -224,6 +236,16 @@ Yes, you can get this from `GET /market-prices/ladder`<br />The summary of the l
 - Odds between 50 and 100 are in increments of 5
 - Odds between 100 and 1000 are in increments of 10
 - Maximum odds are 1000
+
+### What happens when a market is suspended? 
+
+If a market is suspended, we will reject **new** orders to prevent them being created.
+
+Existing liquidity will remain, but as above cannot be matched with (until the market is unsuspended), given new orders can't be created. 
+
+Unmatched liquidity / orders on a suspended market can be cancelled. 
+
+For Stream API users, a MarketStatusUpdate & MarketUpdate message will be sent whenever a market is suspended or unsuspended. 
 
 ## Rate Limits
 

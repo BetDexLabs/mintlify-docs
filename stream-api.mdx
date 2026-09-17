@@ -68,8 +68,8 @@ To subscribe to updates, clients must send a `SubscriptionRequest` describing th
 - For `OrderUpdate` it can be set to:
   - `*`
   - `order-id` — subscribe to updates for an order identified by its id.
-  - `order-app-id:*` — subscribe to all orders owned by `app-id` (only the connection's `app-id` is allowed).
-  - `order-app-id:order-wallet-id` — subscribe to all orders owned by `app-id` and `wallet-id` (only the connection's `app-id` is allowed, and the wallet must be owned by that `app-id`).
+  - `app-id:*` — subscribe to all orders owned by `app-id` (only the connection's `app-id` is allowed).
+  - `app-id:wallet-id` — subscribe to all orders owned by `app-id` and `wallet-id` (only the connection's `app-id` is allowed, and the wallet must be owned by that `app-id`).
 - For `WalletUpdate` it can be set to `*` or a `wallet-id`.
 
 <Note>
