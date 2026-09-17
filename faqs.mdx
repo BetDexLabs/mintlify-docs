@@ -145,11 +145,19 @@ The initial accessToken provided expires after 30 mins. The refresh token provid
 
 Cloudfront may be rejecting your requests, as one of the rules is that you specify a user agent. Adding CURLOPT\_USERAGENT =\> 'BetMonitor/1.0 (client)', into the curl options should fix the issue.
 
-### Why is \_page returning as NULL?
+#### Why is "_\_page_" returning as NULL?
 
 We only offer pagination on certain endpoints.
 
 `_page` will be null on endpoints that don't offer pagination.
+
+#### Why can't I filter /markets or /orders by a single status?
+
+You can!
+
+The filter status is still `statuses` even if it just for one status.
+
+So **GET/markets?statuses=Open** or **GET/orders?statuses=Unmatched** will work all the same
 
 ## Stream API / Websockets
 
