@@ -149,8 +149,9 @@ This currently is across both GET & POST calls, but will be split out in the nea
 
 ### ​Stream API
 
-- 10 **active** connections at any one time
+- 10 **active** connections at any one time.
 - 500 **active** individual subscriptions at any one time - these can be spread across the number of active connections as needed.​
+- 500 subscriptions per minute.
 
 <Tip>
   **Recommendation:** for Stream API connections & subscriptions, if you are currently subscribing to markets by single market ids, then look at utilising the wildcard `"*"` instead.
@@ -163,7 +164,7 @@ This currently is across both GET & POST calls, but will be split out in the nea
 
   makes sense.
 
-  However if you are subscribing to 501\+ markets, you'll need to use
+  However if you are subscribing to 501\+ markets, you'll need to use the wildcard, as you can only subscribe to 500 markets at a time.
 
   ```text
     "subscriptionIds": ["*"]
