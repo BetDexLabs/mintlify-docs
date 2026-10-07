@@ -154,6 +154,14 @@ After authentication and subscription, clients will receive update messages when
 }
 ```
 
+<Tip>
+  Example:
+
+  ```text expandable wrap
+  {"type":"EventUpdate","eventId":"28282","eventGroupId":"NHL","eventGroupName":"NHL","subcategoryId":"ICEHKY","subcategoryName":"Ice Hockey","categoryId":"SPORTS","categoryName":"Sports","appId":"APPID","name":"Washington Capitals v Pittsburgh Penguins","code":"NHL-washington-capitals-v-pittsburgh-penguins-1791415800","active":true,"expectedStartTime":"2026-10-07T23:30:00.000Z","createdAt":"2026-10-05T23:33:42.126Z","modifiedAt":"2026-10-07T12:22:19.351Z"}
+  ```
+</Tip>
+
 ### MarketUpdateMessage
 
 ```json
@@ -212,6 +220,14 @@ After authentication and subscription, clients will receive update messages when
 }
 ```
 
+<Tip>
+  Example:
+
+  ```text expandable wrap
+  {"type":"MarketStatusUpdate","marketId":"898792","eventId":"28282","eventGroupId":"NHL","categoryId":"SPORTS","subCategoryId":"ICEHKY","status":"Open","published":true,"suspended":false,"inPlayStatus":"PrePlay"}
+  ```
+</Tip>
+
 ### MarketPriceUpdateMessage & MarketDirectPriceUpdateMessage
 
 ```json
@@ -242,6 +258,26 @@ After authentication and subscription, clients will receive update messages when
   ]
 }
 ```
+
+<Tip>
+  Snapshot Example:
+
+  ```text expandable wrap
+  {"type":"MarketPriceUpdate","updateType":"Snapshot","marketId":"898792","eventId":"28282","eventGroupId":"NHL","categoryId":"SPORTS","subCategoryId":"ICEHKY","prices":[{"side":"Against","outcomeId":"2067060","price":1.97,"liquidity":40.61,"change":40.61,"validAt":"2026-10-07T12:26:25.468Z"},{"side":"Against","outcomeId":"2067060","price":2,"liquidity":50,"change":50,"validAt":"2026-10-07T12:26:25.446Z"},{"side":"Against","outcomeId":"2067060","price":2.06,"liquidity":38.76560013,"change":38.76560013,"validAt":"2026-10-07T12:26:25.543Z"},{"side":"Against","outcomeId":"2067060","price":2.08,"liquidity":47.6476002,"change":47.6476002,"validAt":"2026-10-07T12:26:25.520Z"},{"side":"Against","outcomeId":"2067061","price":1.8,"liquidity":44.44,"change":44.44,"validAt":"2026-10-07T12:26:25.576Z"},{"side":"Against","outcomeId":"2067061","price":1.81,"liquidity":43.96880002,"change":43.96880002,"validAt":"2026-10-07T12:26:25.442Z"},{"side":"Against","outcomeId":"2067061","price":1.83,"liquidity":54.64,"change":54.64,"validAt":"2026-10-07T12:26:25.546Z"},{"side":"Against","outcomeId":"2067061","price":1.86,"liquidity":53.70800015,"change":53.70800015,"validAt":"2026-10-07T12:26:25.425Z"},{"side":"For","outcomeId":"2067060","price":2.16,"liquidity":46.3,"change":46.3,"validAt":"2026-10-07T12:26:25.397Z"},{"side":"For","outcomeId":"2067060","price":2.22,"liquidity":81.39119994,"change":81.39119994,"validAt":"2026-10-07T12:26:25.422Z"},{"side":"For","outcomeId":"2067060","price":2.26,"liquidity":35.552,"change":35.552,"validAt":"2026-10-07T12:26:25.601Z"},{"side":"For","outcomeId":"2067061","price":1.91,"liquidity":52.36,"change":52.36,"validAt":"2026-10-07T12:26:25.497Z"},{"side":"For","outcomeId":"2067061","price":1.94,"liquidity":41.24,"change":41.24,"validAt":"2026-10-07T12:26:25.522Z"},{"side":"For","outcomeId":"2067061","price":2,"liquidity":50,"change":50,"validAt":"2026-10-07T12:26:25.465Z"},{"side":"For","outcomeId":"2067061","price":2.04,"liquidity":39.3916999,"change":39.3916999,"validAt":"2026-10-07T12:26:25.491Z"}]}
+  ```
+
+  Incremental Example:
+
+  ```text expandable wrap
+  {"type": "MarketPriceUpdate","updateType": "Incremental","marketId": "867386","eventId": "412093","eventGroupId": "EPL","categoryId": "FOOTBALL","subCategoryId": "SOCCER",
+  "prices": [
+      {"side":"For",     "outcomeId":"2001","price":2.5,"liquidity":6, "change":6, "validAt":"2026-10-01T10:15:00.061Z"},
+      {"side":"For",     "outcomeId":"2001","price":3.0,"liquidity":5, "change":5, "validAt":"2026-10-01T10:15:00.061Z"},
+      {"side":"Against", "outcomeId":"2002","price":1.6,"liquidity":12,"change":12,"validAt":"2026-10-01T10:15:00.062Z"}
+    ]
+  }
+  ```
+</Tip>
 
 ### OrderUpdateMessage
 
@@ -274,9 +310,24 @@ After authentication and subscription, clients will receive update messages when
       "stake": 0.0,
       "createdAt": "string (date-time)"
     }
-  ]
+  ],
+  "cancellationReason": "string"
 }
 ```
+
+<Tip>
+  Order Created Example:
+
+  ```text expandable wrap
+  {"type":"OrderUpdate","orderId":"305137051","eventId":"56653","eventGroupId":"SULG","categoryId":"SPORTS","subCategoryId":"FOOTBALL","marketId":"1569503","walletId":"ANAPPID-User","status":"Unmatched","side":"For","outcomeIndexId":"3517754","price":14.0,"priceAvg":null,"totalExposure":0,"stake":7.0,"stakeUnmatched":7.0,"stakeVoided":0,"reference":"YourReference001","createdAt":"2026-09-11T07:22:38.552Z","modifiedAt":"2026-09-11T07:22:38.552Z","trades":[],"cancellationReason":null}
+  ```
+
+  Order Cancelled Example:
+
+  ```text expandable wrap
+  {"type":"OrderUpdate","orderId":"305137051","eventId":"56653","eventGroupId":"SULG","categoryId":"SPORTS","subCategoryId":"FOOTBALL","marketId":"1569503","walletId":"ANAPPID-User","status":"Cancelled","side":"For","outcomeIndexId":"3517754","price":14.00,"priceAvg":null,"totalExposure":0,"stake":7.000000000000,"stakeUnmatched":0,"stakeVoided":7.000000000000,"reference":"YourReference002","createdAt":"2026-09-11T07:22:38.552Z","modifiedAt":" ,"trades":[],"cancellationReason":"Requested"}
+  ```
+</Tip>
 
 ### WalletUpdateMessage
 
