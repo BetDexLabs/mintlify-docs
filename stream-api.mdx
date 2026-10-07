@@ -92,6 +92,7 @@ To keep the system performance strong for every client, we're introducing the fo
 
 - 10 **active** connections at any one time
 - 500 **active** individual subscriptions at any one time - these can be spread across the number of active connections as needed.​
+- 500 subscriptions per minute.
 
 <Tip>
   **Recommendation:** for Stream API connections & subscriptions, if you are currently subscribing to markets by single market ids, then look at utilising the wildcard `"*"` instead.
