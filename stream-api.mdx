@@ -49,13 +49,18 @@ To subscribe to updates, clients must send a `SubscriptionRequest` describing th
 - The `subscriptionType` field defines the type for which subscription is made. Allowed values are:
   - `EventUpdate`
   - `MarketUpdate`
-  - `MarketPriceUpdate`
+  - `MarketPriceUpdate`- all price changes in a market, both direct and derived prices (cross matching liquidity)
+  - `MarketDirectPriceUpdate` - direct only price changes in a market (excluding derived prices/cross matching liquidity triggered updates)
   - `MarketStatusUpdate`
   - `OrderUpdate`
   - `WalletUpdate`
 - The `subscriptionIds` field determines the entities to subscribe to. Allowed values are:
-  - For `EventUpdate`, it can be set to `*` or an `event-id`.
-  - For`MarketUpdate`, `MarketPriceUpdate`, and `MarketStatusUpdate` it can be set to `*` or a `market-id`.
+  - For `EventUpdate`, it can be set to
+  - `*`  - all events
+  - `event-id` - specific events
+  - For`MarketUpdate`, `MarketPriceUpdate`, `MarketDirectPriceUpdate`and `MarketStatusUpdate` it can be set to:
+  - `*` - all markets
+  - `market-id` - specific markets
 
 <Tip>
   Please note for Market subscriptions:
@@ -70,7 +75,9 @@ To subscribe to updates, clients must send a `SubscriptionRequest` describing th
   - `order-id` — subscribe to updates for an order identified by its id.
   - `app-id:*` — subscribe to all orders owned by `app-id` (only the connection's `app-id` is allowed).
   - `app-id:wallet-id` — subscribe to all orders owned by `app-id` and `wallet-id` (only the connection's `app-id` is allowed, and the wallet must be owned by that `app-id`).
-- For `WalletUpdate` it can be set to `*` or a `wallet-id`.
+- For `WalletUpdate` it can be set to
+  - `*` - all wallets owned by your app
+  - `wallet-id` - specific wallet owned by your app
 
 <Note>
   Setting `subscriptionId` to `*` means the client will be subscribed to all updates of the given type.
@@ -81,7 +88,7 @@ To subscribe to updates, clients must send a `SubscriptionRequest` describing th
 ```json
 {
   "action": "subscribe",
-  "subscriptionType": "EventUpdate | MarketUpdate | MarketPriceUpdate | MarketStatusUpdate | OrderUpdate | WalletUpdate",
+  "subscriptionType": "EventUpdate | MarketUpdate | MarketPriceUpdate | MarketDirectPriceUpdate | MarketStatusUpdate | OrderUpdate | WalletUpdate",
   "subscriptionIds": ["string"]
 }
 ```
@@ -205,7 +212,7 @@ After authentication and subscription, clients will receive update messages when
 }
 ```
 
-### MarketPriceUpdateMessage
+### MarketPriceUpdateMessage & MarketDirectPriceUpdateMessage
 
 ```json
 {
@@ -216,6 +223,14 @@ After authentication and subscription, clients will receive update messages when
   "categoryId": "string",
   "subCategoryId": "string",
   "prices": [
+    {
+      "side": "For | Against",
+      "outcomeId": "string",
+      "price": "number",
+      "liquidity": "number",
+      "change": "number",
+      "validAt": "string (date-time)"
+    },
     {
       "side": "For | Against",
       "outcomeId": "string",
